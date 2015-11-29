@@ -16,6 +16,24 @@ module NavigationHelpers
     when /^the home\s?page$/
       '/'
 
+    when /^the edit page for "(.+)"$/
+      title = $1
+      #puts "Searching for the edit page for #{title}"
+      m = Movie.find_by title: title
+      m ? '/movies/' + m.id.to_s + '/edit' : '/404'
+    
+    when /^the details page for "(.+)"$/
+      m = Movie.find_by title: $1
+      @prev_movie = m
+      m ? '/movies/' + m.id.to_s : '/404'
+      
+    when /^Find Movies With Same Director$/
+      '/movies/' + @prev_movie[:id].to_s + '/director'
+      
+    when /^the Similar Movies page for "(.+)"$/
+      m = Movie.find_by title: $1
+      '/movies/' + m[:id].to_s + '/similar'
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
@@ -33,6 +51,17 @@ module NavigationHelpers
       end
     end
   end
+
+=begin
+  def by_name(title)
+    m = nil
+    Movie.all.each do |movie|
+      m = movie if movie.title == title
+    end
+    return m
+  end  
+=end
 end
+
 
 World(NavigationHelpers)
