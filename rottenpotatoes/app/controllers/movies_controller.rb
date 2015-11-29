@@ -1,13 +1,16 @@
 class MoviesController < ApplicationController
   
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date)
+    params.require(:movie).permit(:title, :rating, :director, :release_date)
   end
 
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
+    @director = @movie[:director] # put the director into a global used by show.html.haml
+    # but if it is an empty string, set it to nil instead
+    @director = nil if @director && 0 == @director.length
   end
 
   def index
@@ -49,6 +52,7 @@ class MoviesController < ApplicationController
 
   def update
     @movie = Movie.find params[:id]
+    movie_params['director'] = nil if movie_params['director'] == ''
     @movie.update_attributes!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully updated."
     redirect_to movie_path(@movie)
@@ -60,5 +64,21 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-
+  
+  def director
+    templar = Movie.find params[:id]
+    @director = templar[:director]
+    @movies = Movie.all.select {|x| x[:director] == @director}
+    redirect_to '/movies/' + templar[:id].to_s + '/similar'
+  end
+  
+  def similar
+    templar = Movie.find params[:id]
+    @director = templar[:director]
+    @movies = Movie.all.select {|x| x[:director] == @director}
+    if 2 > @movies.length
+      flash[:notice] = "'#{templar[:title]}' has no director info"
+      redirect_to '/'
+    end
+  end
 end
