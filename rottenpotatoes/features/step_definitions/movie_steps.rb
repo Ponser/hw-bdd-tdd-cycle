@@ -16,9 +16,3 @@ Then /^the director of "(.+)" should be "(.+)"$/ do |mtitle,mdir|
   fail "The 'director' field is incorrect" if !(movie.director) || movie.director != mdir
 end
 
-Then /^the release year of "(.+)" should be "(.+)"$/ do |mtitle,mdir|
-  #puts "#{mtitle} was directed by #{mdir}"
-  movie = Movie.find_by title: mtitle
-  puts movie.title + ' was released in ' + Movie.
-  fail "The 'director' field is incorrect" if !(movie.director) || movie.director != mdir
-end
