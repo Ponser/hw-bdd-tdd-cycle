@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
     @director = @movie[:director] # put the director into a global used by show.html.haml
     # but if it is an empty string, set it to nil instead
     @director = nil if @director && 0 == @director.length
+    #puts "Details for " + @movie[:title].to_s
   end
 
   def index
@@ -64,14 +65,7 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-  
-  def director
-    templar = Movie.find params[:id]
-    @director = templar[:director]
-    @movies = Movie.all.select {|x| x[:director] == @director}
-    redirect_to '/movies/' + templar[:id].to_s + '/similar'
-  end
-  
+
   def similar
     templar = Movie.find params[:id]
     @director = templar[:director]
