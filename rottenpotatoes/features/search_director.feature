@@ -32,3 +32,17 @@ Scenario: can't find similar movies if we don't know director (sad path)
   When  I follow "Find Movies With Same Director"
   Then  I should be on the home page
   And   I should see "'Alien' has no director info"
+  
+Scenario: Add a new movie
+  When I go to the new movie page
+  And  I fill in "Title" with "Buckaroo Banzai"
+  And  I select "2011" from "movie[release_date(1i)]"
+  And  I press "Save Changes"
+  Then I should be on the home page
+  And I should see "Buckaroo Banzai"
+  
+Scenario: Delete a movie
+  Given I am on the details page for "THX-1138"
+  And   I follow "Delete"
+  Then  I should be on the home page
+  And   I should see "Movie 'THX-1138' deleted."

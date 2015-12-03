@@ -28,11 +28,18 @@ module NavigationHelpers
       m ? '/movies/' + m.id.to_s : '/404'
       
     when /^Find Movies With Same Director$/
-      '/movies/' + @prev_movie[:id].to_s + '/director'
+#      '/movies/' + @prev_movie[:id].to_s + '/director'
+      '/movies/' + @prev_movie[:id].to_s + '/similar'
       
     when /^the Similar Movies page for "(.+)"$/
       m = Movie.find_by title: $1
       '/movies/' + m[:id].to_s + '/similar'
+      
+    when /^I delete that movie$/
+      '/movies/' + @prev_movie[:id].to_s + '/destroy'
+      
+    when /^Delete$/
+      '/movies/' + @prev_movie[:id].to_s + '/destroy'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
@@ -51,16 +58,6 @@ module NavigationHelpers
       end
     end
   end
-
-=begin
-  def by_name(title)
-    m = nil
-    Movie.all.each do |movie|
-      m = movie if movie.title == title
-    end
-    return m
-  end  
-=end
 end
 
 

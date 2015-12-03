@@ -55,8 +55,6 @@ end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   visit path_to(link)
-#  puts 'click_link("' + link + '") web_steps.rb:57'
-#  click_link(link)
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
