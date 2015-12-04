@@ -5,6 +5,7 @@ class MoviesController < ApplicationController
   end
 
   def show
+    puts 'Exercising "show" path'
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
@@ -15,6 +16,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    puts 'Exercising "index" path'
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
@@ -38,20 +40,24 @@ class MoviesController < ApplicationController
   end
 
   def new
+    puts 'Exercising "new" path'
     # default: render 'new' template
   end
 
   def create
+    puts 'Exercising "create" path'
     @movie = Movie.create!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully created."
     redirect_to movies_path
   end
 
   def edit
+    #puts 'Exercising "edit" path'
     @movie = Movie.find params[:id]
   end
 
   def update
+    #puts 'Exercising "update" path'
     @movie = Movie.find params[:id]
     movie_params['director'] = nil if movie_params['director'] == ''
     @movie.update_attributes!(movie_params)
@@ -60,6 +66,7 @@ class MoviesController < ApplicationController
   end
 
   def destroy
+    puts 'Exercising "destroy" path'
     @movie = Movie.find(params[:id])
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
@@ -67,12 +74,13 @@ class MoviesController < ApplicationController
   end
 
   def similar
+    puts 'Exercising "similar" path'
     templar = Movie.find params[:id]
     @director = templar[:director]
     @movies = Movie.all.select {|x| x[:director] == @director}
     if 2 > @movies.length
       flash[:notice] = "'#{templar[:title]}' has no director info"
-      redirect_to '/'
+      redirect_to movies_path
     end
   end
 end

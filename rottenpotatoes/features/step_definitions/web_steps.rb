@@ -227,6 +227,7 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label
   end
 end
  
+=begin
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
   current_path = '/' if current_path == '/movies'
@@ -236,6 +237,7 @@ Then /^(?:|I )should be on (.+)$/ do |page_name|
     assert_equal path_to(page_name), current_path
   end
 end
+=end
 
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query

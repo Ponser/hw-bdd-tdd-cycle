@@ -11,10 +11,20 @@ module NavigationHelpers
   # step definition in web_steps.rb
   #
   def path_to(page_name)
+    puts 'path_to(' + page_name + ')'
+    result = go_deep(page_name)
+    puts 'result = ' + result
+    return result
+  end
+
+  def go_deep(page_name)
     case page_name
 
     when /^the home\s?page$/
-      '/'
+      '/movies'
+
+    when /^the RottenPotatoes home\s?page$/
+      '/movies'
 
     when /^the edit page for "(.+)"$/
       title = $1
